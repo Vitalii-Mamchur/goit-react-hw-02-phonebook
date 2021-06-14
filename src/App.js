@@ -1,30 +1,81 @@
 import React, { Component } from 'react';
-import Toggle from './components/Toggle/Toggle';
+import 'modern-normalize/modern-normalize.css';
 import Section from './components/Section';
 import Form from './components/Form';
 import Contacts from './components/Contacts';
-import SignUpForm from './components/SignUp/SignUp';
-import 'modern-normalize/modern-normalize.css';
+import Filter from './components/Filter';
 
 class App extends Component {
   state = {
-    contacts: [],
-    name: '',
-    number: '',
+    contacts: [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ],
+    filter: '',
   };
 
-  addContacts = () => {};
+  addContact = props => {
+    const contact = {
+      id: props.id,
+      name: props.name,
+      number: props.number,
+    };
+
+    const searchSomeName = this.state.contacts
+      .map(contact => contact.name)
+      .includes(props.name);
+
+    if (searchSomeName) {
+      alert(`${props.name} is already in contacts`);
+    } else {
+      this.setState(prevState => ({
+        contacts: [contact, ...prevState.contacts],
+      }));
+    }
+  };
+
+  changeFilter = filter => {
+    this.setState({ filter });
+  };
+
+  visibleContact = () => {
+    const { contacts, filter } = this.state;
+
+    return contacts.filter(contacts =>
+      contacts.name.toLowerCase().includes(filter.toLowerCase()),
+    );
+  };
+
+  removeContact = contactId => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(({ id }) => id !== contactId),
+      };
+    });
+  };
+
   render() {
+    const visibleContact = this.visibleContact();
+
     return (
       <>
-        <Toggle />
         <Section title="Phonebook">
-          <Form />
+          <Form onSubmit={this.addContact} />
         </Section>
         <Section title="Contacts">
-          <Contacts />
+          <Filter
+            value={this.state.filter}
+            onChangeFilter={this.changeFilter}
+          />
+          {visibleContact.length > 0 && (
+            <Contacts
+              contacts={visibleContact}
+              onRemoveContact={this.removeContact}
+            />
+          )}
         </Section>
-        <SignUpForm />
       </>
     );
   }
