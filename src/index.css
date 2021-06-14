@@ -24,10 +24,15 @@ button {
 }
 
 button:hover {
-  background: rgb(14, 11, 172);
+  background: rgb(59, 56, 58);
   color: cornsilk;
 }
 
 h3 {
   margin: 0;
+}
+
+ul {
+  padding-inline-start: 0;
+  margin-block: 0;
 }

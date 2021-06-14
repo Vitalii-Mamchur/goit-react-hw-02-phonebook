@@ -1,17 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './Contacts.module.css';
 
 const Contacts = ({ contacts, onRemoveContact }) => {
   return (
-    <div>
+    <div className={styles.contacts}>
       <ul>
         {contacts.map(contact => (
-          <li key={contact.id}>
+          <li className={styles.contacts_item} key={contact.id}>
             {contact.name + ' : ' + contact.number}
             {
-              <div className={styles.divRelativeButton}>
+              <div>
                 <button
-                  className={styles.TaskList_button}
+                  className={styles.contacts_button}
                   type="button"
                   name="delte"
                   onClick={() => {
@@ -27,6 +28,16 @@ const Contacts = ({ contacts, onRemoveContact }) => {
       </ul>
     </div>
   );
+};
+
+Contacts.prototype = {
+  onRemoveContact: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      number: PropTypes.number.isRequired,
+    }),
+  ),
 };
 
 export default Contacts;

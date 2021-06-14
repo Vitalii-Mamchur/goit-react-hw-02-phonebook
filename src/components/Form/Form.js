@@ -4,7 +4,6 @@ import styles from './Form.module.css';
 
 class Form extends Component {
   state = {
-    id: '',
     name: '',
     number: '',
   };
@@ -27,7 +26,6 @@ class Form extends Component {
 
   reset = () => {
     this.setState({
-      id: '',
       name: '',
       number: '',
     });
@@ -40,7 +38,7 @@ class Form extends Component {
         id={this.formInputId}
         onSubmit={this.handleSubmit}
       >
-        <label className={styles.formTitle}>
+        <label className={styles.form_libel}>
           Name
           <input
             className={styles.formInput}
